@@ -1,7 +1,10 @@
 
 import "./globals.css";
 
-
+export const metadata = {
+  title: "Interactive Comments",
+  description: "Interactive comment section",
+};
 
 
 

@@ -11,23 +11,33 @@ const CommentCard = ({ comment }) => {
     const [editmesg, seteditmesg] = useState("");
     const textareaRef = useRef(null);
     function handleUpdate(e) {
-        e.preventDefault();
-        const updatecomment = data.comments.map((comment) =>
-            comment.id === editId ? { ...comment, content: editmesg } :
-                comment
-        ).map((comment) => ({
-            ...comment, replies: comment.replies ?
-                comment.replies.map((replies) => replies.id === editId ?
-                    { ...replies, content: editmesg, createdAt: "just now" } :
-                    replies
-                ) : comment.replies
-        }))
+    e.preventDefault();
 
-        setdata({ ...data, comments: updatecomment })
+    const updatecomment = data.comments
+        .map((item) =>
+            item.id === editId
+                ? { ...item, content: editmesg }
+                : item
+        )
+        .map((item) => ({
+            ...item,
+            replies: item.replies
+                ? item.replies.map((reply) =>
+                    reply.id === editId
+                        ? {
+                            ...reply,
+                            content: editmesg,
+                            createdAt: "just now"
+                        }
+                        : reply
+                )
+                : item.replies
+        }));
 
-        seteditId(null);
-    }
+    setdata({ ...data, comments: updatecomment });
 
+    seteditId(null);
+}
 
     return (
 
@@ -35,7 +45,7 @@ const CommentCard = ({ comment }) => {
             <div className="bg-white mb-2 rounded-lg p-4 shadow-sm">
 
                 <div className="flex  justify-between md:items-start gap-2 items-end">
-                    <span className='hidden md:flex'> <ScoreCard score ={comment.score} id = {comment.id}/></span>
+                    <div className='hidden md:flex'> <ScoreCard score ={comment.score} id = {comment.id}/></div>
 
                     <div className='flex md:flex-row flex-col flex-1 min-w-0 space-x-2 items-start'>
 
@@ -44,18 +54,20 @@ const CommentCard = ({ comment }) => {
                                 <Image
                                     src={comment.user.image.png}
                                     alt={comment.user.username}
-                                    className="w-10 h-10 rounded-full"
+                                    width={40}
+                                    height={40}
+                                    className=" rounded-full"
                                 />
                                 <div className='flex space-x-2 items-start flex-1 min-w-0'>
                                     <strong>{comment.user.username}</strong>
                                     {
-                                        editId == comment.id && <p className='text-sm text-white bg-blue-800 px-1 text-center '>You</p>
+                                        editId === comment.id && <p className='text-sm text-white bg-blue-800 px-1 text-center '>You</p>
                                     }
                                     <span className="text-gray-500 ml-2">{comment.createdAt}</span>
                                 </div>
                             </div>
                             {
-                                editId == comment.id ?
+                                editId === comment.id ?
                                     <form className='flex items-start flex-col gap-4 w-full' onSubmit={handleUpdate}>
                                         <textarea ref={textareaRef} value={editmesg} onChange={(e) => seteditmesg(e.target.value)} className='outline-none flex-1 w-full  h-20 border focus:border-blue-700 rounded-lg p-2' />
                                         <button type='submit' className='text-white text-md  font-medium bg-blue-800 rounded-lg px-4 py-2'>Update</button>
@@ -65,14 +77,14 @@ const CommentCard = ({ comment }) => {
                             }
                         </div>
                         <div className='flex w-full md:w-auto justify-between items-center'>
-                            <span className='md:hidden flex'> <ScoreCard score={comment.score} /></span>
+                            <div className='md:hidden flex'> <ScoreCard score={comment.score} /></div>
                             {
                                 comment.user.username === data.currentUser.username ?
                                     <div className='flex gap-4'>
-                                        <button onClick={() => setdeleteId(comment.id)} className='flex text-red-500 text-md font-medium hover:opacity-60 items-center gap-0.5'>
-                                            <Image src='/images/icon-delete.svg' alt='delete icon'  className='w-3 ' />
+                                        <button onClick={() => setdeleteId(comment.id)} type='button' className='flex text-red-500 text-md font-medium hover:opacity-60 items-center gap-0.5'>
+                                            <Image src='/images/icon-delete.svg' alt='delete icon' width={12} height={12}   />
                                             Delete</button>
-                                        <button onClick={() => {
+                                        <button type='button' onClick={() => {
                                             seteditId(comment.id),
                                                 seteditmesg(comment.content),
                                                 setTimeout(() => {
@@ -84,12 +96,12 @@ const CommentCard = ({ comment }) => {
                                                 }, 0
                                                 )
                                         }} className='flex items-center text-md font-medium  text-blue-800 hover:opacity-60 gap-0.5'>
-                                            <Image src='/images/icon-edit.svg' alt='edit icon' className='w-3' />
+                                            <Image src='/images/icon-edit.svg' alt='edit icon' width={12} height={12}  />
                                             Edit</button>
                                     </div>
                                     :
                                     <button onClick={() => setreplyId(comment.id)} type='button' className='text-blue-800 text-md font-medium flex items-center gap-1 cursor-pointer hover:opacity-60'>
-                                        <Image src='/images/icon-reply.svg' alt='reply' />
+                                        <Image src='/images/icon-reply.svg' alt='' width={16} height={16} />
                                         reply</button>
                             }
                         </div>

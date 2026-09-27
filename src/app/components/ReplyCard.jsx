@@ -55,8 +55,8 @@ const ReplyCard = ({ buttonType }) => {
   }
   return (
     <form onSubmit={handleSubmit} className={`flex justify-evenly items-start bg-white p-4 rounded-lg gap-3 ${deleteId ? "opacity-50 " : "opacity-90"}`}>
-      <Image src={data.currentUser?.image?.webp} alt={data.currentUser.username} className='w-10 h-10' />
-      <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='outline-none flex-1 h-20 border focus:border-blue-700 rounded-lg' />
+      <Image src={data.currentUser?.image?.webp} alt={data.currentUser.username} width={40} height={40}  />
+      <textarea aria-label="write your comment" value={message} onChange={(e) => setMessage(e.target.value)} className='outline-none flex-1 h-20 border focus:border-blue-700 rounded-lg' />
       <button type='submit' className='rounded-lg bg-blue-700 hover:opacity-60 text-white font-medium text-md px-3 py-2'>{buttonType}</button>
     </form>
   )
