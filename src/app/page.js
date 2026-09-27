@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import CommentPage from "./components/CommentPage";
 import { ContextProvider } from './useContext/CommentContext'
 

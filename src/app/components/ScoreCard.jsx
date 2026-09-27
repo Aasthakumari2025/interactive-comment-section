@@ -10,7 +10,7 @@ const ScoreCard = ({score,id}) => {
        comment.id === id ? {
         ...comment, score : score +1
        }:
-       {...comment , replies : comment.replies?.map(comment => comment.id == id ? {...comment , score : score+1}: comment
+       {...comment , replies : comment.replies?.map(replie => replie.id === id ? {...replie , score : score+1}: replie
         
        )}
       )
@@ -21,10 +21,10 @@ const ScoreCard = ({score,id}) => {
    
    setdata(prev => ({
     ...prev, comments: prev.comments.map(comment => 
-      comment.id == id ? {
+      comment.id === id ? {
         ...comment,score: Math.max(0,comment.score-1)
       } :
-      {...comment ,replies: comment.replies?.map(comment => comment.id == id ? {...comment , score : Math.max(0,comment.score-1) } : comment)}
+      {...comment ,replies: comment.replies?.map(replie => replie.id === id ? {...replie , score : Math.max(0,replie.score-1) } : replie)}
     )
    }))
   }

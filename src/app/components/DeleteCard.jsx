@@ -6,7 +6,7 @@ import { CommentContext } from '../useContext/CommentContext'
 const DeleteCard = () => {
   const {deleteId, setdeleteId ,setdata , data} = useContext(CommentContext)
   function handleDeleteReply(delid){
-   const deletereply = data.comments.filter((comment) => comment.id != delid).map((comment) => ({...comment , replies:comment.replies ? comment.replies.filter((replies) => replies.id != delid ): comment.replies}))
+   const deletereply = data.comments.filter((comment) => comment.id !== delid).map((comment) => ({...comment , replies:comment.replies ? comment.replies.filter((replies) => replies.id !== delid ): comment.replies}))
 
    setdata({...data ,comments : deletereply})
    setdeleteId(false)
